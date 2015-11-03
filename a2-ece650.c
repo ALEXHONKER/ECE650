@@ -84,11 +84,11 @@ int main(){
 			index = 0;
 			int len = strlen(name);
 			int num = 0;
-			int i = 2;
+			int i = 4;
 			int j = 0;
 			int p = 1;
 			int fau = 0;
-			for (i = 2; i<strlen(name); i++){
+			for (i = 4; i<strlen(name); i++){//////i==2  ==>> i==4
 				p = 1;
 				for (j=1;j<=len-i-1;j++){
 					p = p * 10;
@@ -135,14 +135,14 @@ int main(){
 				continue;
 			}
 			nume = 0;
-			int i = 4;
+			int i = 6;
 			char x[100];
 			int pointer = 0;
 			int xp = 0;
 			memset(x, 0, 100 * sizeof(char));
 			int fault = 0;
 			int outof = 0;
-			for (i = 4; i<strlen(name) - 1; i++){
+			for (i = 6; i<strlen(name) - 1; i++){
 				if (fault == 1) break;
 
 				if (name[i] == ',' && name[i - 1] != '>'){

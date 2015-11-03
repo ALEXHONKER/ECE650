@@ -70,6 +70,7 @@ int getint(char *s){
 			close(fd1[0]);
 			char* cc[]={"a1-ece650.py",NULL};
 			//sleep(1);
+			//execl("/bin/sh","sh","-c","python ./a1-ece650.py",NULL);
 			execl("/bin/sh","sh","-c","python ./a1-ece650.py",NULL);
 			fprintf(stderr, "Error: Open python script failed.\n" );
  			return 0;
@@ -84,9 +85,10 @@ int getint(char *s){
 			if(name[0]=='g'){
 				write(fd1[1],line,strlen(line)+1);
 				//fprintf(py,"%s",line);
-				fprintf(stdout,"%s",line);
-				 sleep(3);
-				 fprintf(stdout, "after sleep\n" );
+				//fprintf(stdout,"%s",line);
+				//fprintf(stdout,"=======================================================");
+				 //sleep(3);
+				 //fprintf(stdout, "after sleep\n" );
 				strcpy(pyout2,"\0");
 				read(fd2[0],pyout2,sizeof(char)*MAXLENGTH*100);
 				//close(fd2[0]);
@@ -94,7 +96,7 @@ int getint(char *s){
 				// while(getline(&pyout,&maxl2,py)!=EOF){
 				// 	strcat(pyout2,pyout);
 				// }
-				fprintf(stdout,"py:  %s\n",pyout2);
+				fprintf(stdout,"%s",pyout2);
 				memset(pyout2,0,sizeof(char)*MAXLENGTH*100);
 				memset(line,0,sizeof(char)*MAXLENGTH*100);
 			}

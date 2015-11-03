@@ -239,7 +239,9 @@ def remove(strs):
 		del dic[street_name]
 
 def removeall():
+	global count
 	for nam in dic.keys():
+		count=1
 		del dic[nam]
 
 def graph():
@@ -722,8 +724,11 @@ def graph():
 								list_node.remove(minid2)
 								#print list_node
 	sys.stdout.write("V = ")
+	#sys.stdout.flush()
 	sys.stdout.write(str(len(nodes)))
+	#sys.stdout.flush()
 	sys.stdout.write("\n")
+	#sys.stdout.flush()
 	# listed_nodes={}
 	# #print nodes
 	# for v in nodes.keys():
@@ -745,13 +750,17 @@ def graph():
 	# 	sys.stdout.write("\n")
 	# sys.stdout.write("\n")
 	sys.stdout.write("E = {")
+	#sys.stdout.flush()
 	for i in range(len(edges)):
 		edge0=edges[i]
 		sys.stdout.write("<"+str(edge0[0])+","+str(edge0[1])+">")
+		#sys.stdout.flush()
 		if i!=len(edges)-1:
 			sys.stdout.write(",")
+			#sys.stdout.flush()
 		#sys.stdout.write("\n")
 	sys.stdout.write("}\n")
+	#sys.stdout.flush()
 
 
 	#print edges
@@ -761,55 +770,56 @@ def graph():
 try:
 	count=1
 	while True:
-		f = open('workfile', 'w')
-		f.write("stdin")
-		f.close
-		cccc=1
-		while True:
-			cccc=cccc+1
-			line=sys.stdin.readline()
-			if not line:
-				break
-			sys.stdout.write(line)
-			if cccc>4:
-				break
-		sys.stdout.flush()
-		break
-		stdin=sys.stdin.readlines()
-		f = open('workfile2', 'w')
-		f.write("stdin2")
-		f.close
+		# f = open('workfile', 'w')
+		# f.write("stdin")
+		# f.close
+		# cccc=1
+		# while True:
+		# 	cccc=cccc+1
+		# 	line=sys.stdin.readline()
+		# 	if not line:
+		# 		break
+		# 	sys.stdout.write(line)
+		# 	sys.stdout.flush()
+		# break
+		############################################stdin=sys.stdin.readlines()
+		stdin=sys.stdin.readline()
+		# f = open('workfile2', 'w')
+		# f.write("stdin2")
+		# f.close
 		if not stdin:
 			break
 		#a= "a \"ws\" (2,-1) (2,2) (5,5) (5,6) (3,8)"
-		for i in range(len(stdin)):
-			if i == 1:
-				f = open('workfile2', 'w')
-				f.write("stdin2")
-				f.close
-			a=stdin[i]
-			a=a.strip()
-			if a=='':
-				sys.stderr.write("Error: Please input valid data\n")
+		#for i in range(len(stdin)):
+		a=stdin
+		a=a.strip()
+		# sys.stderr.write("eeeeee:")
+		# sys.stderr.write(str(len(a)))
+		# sys.stderr.write(a)
+		# sys.stderr.write("\n")
+		if a=='':
+			sys.stderr.write("Error: Please input valid data\n")
+		else:
+			first=a[0]
+			# sys.stderr.write("first:"+first)
+			# sys.stderr.write("\n")
+			if first=='a' and (a[1]==" " or a[1]=="\""):
+				add(a)
+			elif first=='c' and (a[1]==" " or a[1]=="\""):
+				delete(a)
+			elif (first=='r' or (len(a)>1 and a[1]=='r')) and len(a)<=5:
+				removeall()
+			elif first=='r' and (a[1]==" " or a[1]=="\""):
+				remove(a)
+			elif first=='g':
+				#count=1
+				#print "count"
+				#print count
+				graph()
+				sys.stdout.flush()
+				# str_name=dic.keys()
 			else:
-				first=a[0]
-				if first=='a' and (a[1]==" " or a[1]=="\""):
-					add(a)
-				elif first=='c' and (a[1]==" " or a[1]=="\""):
-					delete(a)
-				elif first=='r' and len(a)<=3:
-					removeall()
-				elif first=='r' and (a[1]==" " or a[1]=="\""):
-					remove(a)
-				elif first=='g':
-					#count=1
-					#print "count"
-					#print count
-					graph()
-					sys.stdout.flush()
-					# str_name=dic.keys()
-				else:
-					sys.stderr.write("Error: Please input valid data\n")
+				sys.stderr.write("Error: Please input valid data_\n")
 			# str_name=dic.keys()
 			#print str_name
 			# for strs in str_name:
