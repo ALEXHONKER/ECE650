@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
-#define MAXLENGTH 500
+#define MAXLENGTH 5000
 int getint(char *s){
 	int i = 0;
 	int p = 1;
@@ -35,7 +35,7 @@ int getint(char *s){
  	char line[MAXLENGTH*100];
  	unsigned long maxl2=MAXLENGTH;
  	char *pyout=malloc(maxl2*sizeof(char));
- 	char pyout2[MAXLENGTH*100];
+ 	char pyout2[MAXLENGTH*1000];
  	strcpy(command,"./rgen ");
  	//char *command=malloc(sizeof(char));
  	for(i=1;i<argc;i++){
@@ -85,19 +85,19 @@ int getint(char *s){
 			if(name[0]=='g'){
 				write(fd1[1],line,strlen(line)+1);
 				//fprintf(py,"%s",line);
-				//fprintf(stdout,"%s",line);
+				fprintf(stdout,"%s",line);
 				//fprintf(stdout,"=======================================================");
 				 //sleep(3);
 				 //fprintf(stdout, "after sleep\n" );
 				strcpy(pyout2,"\0");
-				read(fd2[0],pyout2,sizeof(char)*MAXLENGTH*100);
+				read(fd2[0],pyout2,sizeof(char)*MAXLENGTH*1000);
 				//close(fd2[0]);
 				//close(fd1[1]);
 				// while(getline(&pyout,&maxl2,py)!=EOF){
 				// 	strcat(pyout2,pyout);
 				// }
 				fprintf(stdout,"%s",pyout2);
-				memset(pyout2,0,sizeof(char)*MAXLENGTH*100);
+				memset(pyout2,0,sizeof(char)*MAXLENGTH*1000);
 				memset(line,0,sizeof(char)*MAXLENGTH*100);
 			}
 			memset(name, 0, maxl * sizeof(char));

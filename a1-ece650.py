@@ -40,9 +40,14 @@ def overlap(x1,y1,x2,y2,x3,y3,x4,y4):
 	elif (x1==x2 and x3!=x4) or (x1!=x2 and x3==x4) or (x1==x2 and x3==x4 and x1!=x3):
 		return 0
 	else:
-		k2=(y4-y3)/(x4-x3)
+		#bug exists in last version
+		# k2=(y4-y3)/(x4-x3)
+		# b2=y4-k2*x4
+		# k1=(y2-y1)/(x2-x1)
+		# b1=y2-k1*x2
+		k2=((y4-y3)+0.0)/((x4-x3)+0.0)
 		b2=y4-k2*x4
-		k1=(y2-y1)/(x2-x1)
+		k1=((y2-y1)+0.0)/((x2-x1))+0.0
 		b1=y2-k1*x2
 		if k1==k2 and b1==b2:
 			maxy=y2
@@ -157,6 +162,15 @@ def add(strs):
 							#print pointer
 							#print x1,y1,x2,y2,x3,y3,x4,y4
 							pointer=overlap(x1,y1,x2,y2,x3,y3,x4,y4)
+							if pointer==1:
+								sys.stderr.write(str(x1))
+								sys.stderr.write(str(y1))
+								sys.stderr.write(str(x2))
+								sys.stderr.write(str(y2))
+								sys.stderr.write(str(x3))
+								sys.stderr.write(str(y3))
+								sys.stderr.write(str(x4))
+								sys.stderr.write(str(y4))
 							#print pointer
 					if pointer==0:
 						str1.setsxy(par)
