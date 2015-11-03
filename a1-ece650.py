@@ -238,6 +238,10 @@ def remove(strs):
 	else:
 		del dic[street_name]
 
+def removeall():
+	for nam in dic.keys():
+		del dic[nam]
+
 def graph():
 	global count  # Needed to modify global copy 
 	nodes={}
@@ -717,37 +721,36 @@ def graph():
 							if minid2!="":
 								list_node.remove(minid2)
 								#print list_node
-	sys.stdout.write("V = {")
+	sys.stdout.write("V = ")
+	sys.stdout.write(str(len(nodes)))
 	sys.stdout.write("\n")
-	listed_nodes={}
-	#print nodes
-	for v in nodes.keys():
-		listed_nodes[nodes[v][1]]=nodes[v][0]
-	for v in sorted(listed_nodes):
-		sys.stdout.write(str(v)+": (")
-		if listed_nodes[v][0]%1==0:
-			sys.stdout.write(str(int(listed_nodes[v][0])))
-		else:
-			sys.stdout.write(str(round(listed_nodes[v][0],2)))
-			#sys.stdout.write(str("%.2f" % listed_nodes[v][0]))
-		sys.stdout.write(",")
-		if listed_nodes[v][1]%1==0:
-			sys.stdout.write(str(int(listed_nodes[v][1])))
-		else:
-			sys.stdout.write(str(round(listed_nodes[v][1],2)))
-			#sys.stdout.write(str("%.2f" % listed_nodes[v][1]))
-		sys.stdout.write(")")
-		sys.stdout.write("\n")
-	sys.stdout.write("}")
-	sys.stdout.write("\n")
+	# listed_nodes={}
+	# #print nodes
+	# for v in nodes.keys():
+	# 	listed_nodes[nodes[v][1]]=nodes[v][0]
+	# for v in sorted(listed_nodes):
+	# 	sys.stdout.write(str(v)+": (")
+	# 	if listed_nodes[v][0]%1==0:
+	# 		sys.stdout.write(str(int(listed_nodes[v][0])))
+	# 	else:
+	# 		sys.stdout.write(str(round(listed_nodes[v][0],2)))
+	# 		#sys.stdout.write(str("%.2f" % listed_nodes[v][0]))
+	# 	sys.stdout.write(",")
+	# 	if listed_nodes[v][1]%1==0:
+	# 		sys.stdout.write(str(int(listed_nodes[v][1])))
+	# 	else:
+	# 		sys.stdout.write(str(round(listed_nodes[v][1],2)))
+	# 		#sys.stdout.write(str("%.2f" % listed_nodes[v][1]))
+	# 	sys.stdout.write(")")
+	# 	sys.stdout.write("\n")
+	# sys.stdout.write("\n")
 	sys.stdout.write("E = {")
-	sys.stdout.write("\n")
 	for i in range(len(edges)):
 		edge0=edges[i]
 		sys.stdout.write("<"+str(edge0[0])+","+str(edge0[1])+">")
 		if i!=len(edges)-1:
 			sys.stdout.write(",")
-		sys.stdout.write("\n")
+		#sys.stdout.write("\n")
 	sys.stdout.write("}\n")
 
 
@@ -755,39 +758,65 @@ def graph():
 	#print nodes
 
 			
-
-count=1
-while True:
-	stdin=sys.stdin.readlines()
-	if not stdin:
+try:
+	count=1
+	while True:
+		f = open('workfile', 'w')
+		f.write("stdin")
+		f.close
+		cccc=1
+		while True:
+			cccc=cccc+1
+			line=sys.stdin.readline()
+			if not line:
+				break
+			sys.stdout.write(line)
+			if cccc>4:
+				break
+		sys.stdout.flush()
 		break
-	#a= "a \"ws\" (2,-1) (2,2) (5,5) (5,6) (3,8)"
-	for i in range(len(stdin)):
-		a=stdin[i]
-		a=a.strip()
-		if a=='':
-			sys.stderr.write("Error: Please input valid data\n")
-		else:
-			first=a[0]
-			if first=='a' and (a[1]==" " or a[1]=="\""):
-				add(a)
-			elif first=='c' and (a[1]==" " or a[1]=="\""):
-				delete(a)
-			elif first=='r' and (a[1]==" " or a[1]=="\""):
-				remove(a)
-			elif first=='g':
-				#count=1
-				#print "count"
-				#print count
-				graph()
-				str_name=dic.keys()
-			else:
+		stdin=sys.stdin.readlines()
+		f = open('workfile2', 'w')
+		f.write("stdin2")
+		f.close
+		if not stdin:
+			break
+		#a= "a \"ws\" (2,-1) (2,2) (5,5) (5,6) (3,8)"
+		for i in range(len(stdin)):
+			if i == 1:
+				f = open('workfile2', 'w')
+				f.write("stdin2")
+				f.close
+			a=stdin[i]
+			a=a.strip()
+			if a=='':
 				sys.stderr.write("Error: Please input valid data\n")
-		str_name=dic.keys()
-		#print str_name
-		for strs in str_name:
-			pass
-			#print strs+"    23333"
-			#print dic[strs].setxy
-			#print len(dic)	
-
+			else:
+				first=a[0]
+				if first=='a' and (a[1]==" " or a[1]=="\""):
+					add(a)
+				elif first=='c' and (a[1]==" " or a[1]=="\""):
+					delete(a)
+				elif first=='r' and len(a)<=3:
+					removeall()
+				elif first=='r' and (a[1]==" " or a[1]=="\""):
+					remove(a)
+				elif first=='g':
+					#count=1
+					#print "count"
+					#print count
+					graph()
+					sys.stdout.flush()
+					# str_name=dic.keys()
+				else:
+					sys.stderr.write("Error: Please input valid data\n")
+			# str_name=dic.keys()
+			#print str_name
+			# for strs in str_name:
+			# 	pass
+				#print strs+"    23333"
+				#print dic[strs].setxy
+				#print len(dic)	
+except KeyboardInterrupt:
+    sys.stdout.flush()
+    pass

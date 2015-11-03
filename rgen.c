@@ -107,8 +107,8 @@ int overlap(int x1,int y1,int x2,int y2,int x3,int y3,int x4,int y4){
 
 int check(int x1,int y1,int x2, int y2, struct street *f){
 	while(f!=NULL){
-		printf("name:%d\n",f->name);
-		printf("flen:%d\n",f->len);
+		//printf("name:%d\n",f->name);
+		//printf("flen:%d\n",f->len);
 		if(f->len>1){
 			int i=0;
 			int flag=0;
@@ -174,7 +174,7 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	  // cor = realloc(cor, (ss)*sizeof(int*));
 	   int numstr=0;
 	   struct street *first=NULL;
-	   printf("ss:%d\n",ss);
+	//   printf("ss:%d\n",ss);
 	   for(j=0;j<ss;j++){
 	   		 s1=malloc(sizeof(struct street));
 	   		 s1->next=first;
@@ -183,7 +183,7 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   		 //fread(&seed, 2, 1, f);
 	   		 int nn=2+(int)((float)ran[count++]/65535.0*(float)(n));
 	   		 if(nn==n+1) nn--;
-	   		 printf("nn:%d\n",nn);
+	   		// printf("nn:%d\n",nn);
 	   		 s1->cor=malloc((nn+1)*sizeof(int*));
 	   		 s1->len=nn+1;
 	   		 for(i=0;i<=nn;i++){
@@ -199,7 +199,7 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   		 			if(cc1==c+1) cc1--;
 	   		 			cc2=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
 	   		 			if(cc2==c+1) cc2--;
-	   		 			if(check(cc1,cc2,s1->cor[i-1][0],s1->cor[i-1][1],first)==0) break;
+	   		 			if(check(cc1,cc2,s1->cor[i-1][0],s1->cor[i-1][1],first)==0 && !(cc1==s1->cor[i-1][0] && cc2==s1->cor[i-1][1])) break;
 	   		 		}
 	   		 		if(k==26){
 	   		 			fprintf(stderr,"Error:  failed to generate valid input for 25 simultaneous attempts\n");
@@ -224,18 +224,30 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   		 }
 	   }
 	   struct street *st=first;
-	   // while(st!=NULL){
-	   // 	 printf("id:%d\n",st->name);
-	   // 	 printf("len:%d\n",st->len);
-	   // 	 int te=0;
-	   // 	 for(te=0;te<st->len;te++){
-	   // 	 	printf("x: %d, y:%d\n",st->cor[te][0],st->cor[te][1]);
-	   // 	 }
-	   // 	 st=st->next;
-	   // }
+	 //  char command=malloc(sizeof(char)*10000);
+	  // strcpy(command,"r\n");
+
+
+	   fprintf(stdout,"r\n");
+	  // fprintf(stdout,"r\n");
+	   while(st!=NULL){   	 
+	   	 fprintf(stdout,"a \"%d\" ",st->name);
+	   	 int te=0;
+	   	 for(te=0;te<st->len;te++){
+	   	 	fprintf(stdout,"(%d,%d) ",st->cor[te][0],st->cor[te][1]);
+	   	 }
+	   	 fprintf(stdout,"\n");
+	   	 st=st->next;
+	   }
+	   fprintf(stdout,"g\n");
+	   fflush(stdout);
 	   int ll=5+(int)((float)ran[count++]/65535.0*(float)(l-4));
+	   // break;
+ 
 	   // printf("ll:%d\n",ll);
 	   // printf("overlap:%d\n",overlap(0,0,2,2,1,1,3,3));
+
+
        sleep(ll);
    }
    fclose(f);
