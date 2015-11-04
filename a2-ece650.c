@@ -156,6 +156,8 @@ int main(){
 					cor[nume][0] = getint(x);
 					if (cor[nume][0]<0 || cor[nume][0] >= all){
 						fprintf(stdout, "Error: Wrong point\n");
+						///////////////////////////////////
+						fprintf(stdout,"%d\n",cor[nume][0]);
 						fflush(stdout);
 						fault = 1;
 						break;

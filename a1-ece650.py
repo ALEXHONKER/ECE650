@@ -254,9 +254,14 @@ def remove(strs):
 
 def removeall():
 	global count
+	count=0
 	for nam in dic.keys():
-		count=0
 		del dic[nam]
+	for no in nodes.keys():
+		del nodes[no]
+	for n in name2num.keys():
+		del name2num[n]
+
 
 def graph():
 	global count  # Needed to modify global copy 
@@ -831,6 +836,7 @@ try:
 				#print count
 				graph()
 				sys.stdout.flush()
+				#removeall() # remove all
 				# str_name=dic.keys()
 			else:
 				sys.stderr.write("Error: Please input valid data_\n")

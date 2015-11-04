@@ -34,7 +34,7 @@ int getint(char *s){
  	unsigned long maxl=MAXLENGTH;
  	char *name=malloc(maxl*sizeof(char));
  	char command[10000];
- 	char line[MAXLENGTH*100];
+ 	char line[MAXLENGTH*10];
  	unsigned long maxl2=MAXLENGTH;
  	char pyout2[MAXLENGTH*1000];
  	char pyerr[MAXLENGTH];
@@ -118,9 +118,18 @@ int getint(char *s){
 					fprintf(stdout,"%s",pyout2);
 				}
 				if(getline(&command_path,&len,stdin)==EOF){
-					fprintf(stdout, "madan\n" );
-					fflush(stdout);
-					break;
+					fprintf(stdout, "madan\n" );//////////////////////////
+					//fflush(stdout);
+					
+					//write(fd1[1],"\x04",4);
+					//close(fd1[1]);
+					//close(fd2[0]);
+					//pclose(fp);
+					kill(prgen, SIGKILL);
+					exit(1);
+					exit(0);
+					return 0;
+					//break;
 				}
 				command_path[strlen(command_path)-1]=='\0';
 				strcat(pyout2,command_path);
@@ -161,13 +170,14 @@ int getint(char *s){
 				}
 				if(errflag2==0){
 					fprintf(stdout, "%s",a3out);
-				}else{
-					kill(prgen, SIGKILL);
-					kill(p2, SIGKILL);
-					pclose(fp);
- 					return 0;
-					break;
 				}
+				// else{
+				// 	kill(prgen, SIGKILL);
+				// 	kill(p2, SIGKILL);
+				// 	pclose(fp);
+ 			// 		return 0;
+				// 	break;
+				// }
 				//fprintf(stdout,"command:%s\n",command_path);
 				kill(p2, SIGKILL);
 				memset(pyerr,0,sizeof(char)*MAXLENGTH);
@@ -175,7 +185,7 @@ int getint(char *s){
 				memset(a3out,0,sizeof(char)*1000);
 				memset(command,0,sizeof(char)&len);
 				memset(pyout2,0,sizeof(char)*MAXLENGTH*1000);
-				memset(line,0,sizeof(char)*MAXLENGTH*100);
+				memset(line,0,sizeof(char)*MAXLENGTH*10);
 			}
 			memset(name, 0, maxl * sizeof(char));
 		}	
