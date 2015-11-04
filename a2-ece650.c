@@ -96,6 +96,7 @@ int main(){
 				}
 				if (!(name[i] - '0' >= 0 && name[i] - '0' <= 9)){
 					fprintf(stdout, "Error: wrong V\n");
+					fflush(stdout);
 					fau = 1;
 					break;
 				}
@@ -106,6 +107,7 @@ int main(){
 
 			if (num == 0 && fau == 0){
 				fprintf(stdout, "Error: wrong V\n");
+				fflush(stdout);
 				continue;
 			}
 			else{
@@ -133,6 +135,7 @@ int main(){
 			}
 			if (index != 1){
 				fprintf(stdout, "Error: Wrong input.\n");
+				fflush(stdout);
 				continue;
 			}
 			nume = 0;
@@ -153,6 +156,7 @@ int main(){
 					cor[nume][0] = getint(x);
 					if (cor[nume][0]<0 || cor[nume][0] >= all){
 						fprintf(stdout, "Error: Wrong point\n");
+						fflush(stdout);
 						fault = 1;
 						break;
 					}
@@ -163,6 +167,7 @@ int main(){
 					long long mul = (long)all*(long)all;
 					if (nume >= mul){
 						fprintf(stdout, "Error: Wrong input of E\n");
+						fflush(stdout);
 						fault = 1;
 						break;
 					}
@@ -170,6 +175,7 @@ int main(){
 					cor[nume][1] = getint(x);
 					if (cor[nume][1]<0 || cor[nume][1] >= all){
 						fprintf(stdout, "Error: Wrong point\n");
+						fflush(stdout);
 						fault = 1;
 						break;
 					}
@@ -267,6 +273,7 @@ int main(){
 				}
 				else if(name[i]=='-'){
 					fprintf(stdout, "Error: Wrong point\n");
+					fflush(stdout);
 					fault = 1;
 					break;	
 				}
@@ -281,6 +288,7 @@ int main(){
 		else if (name[0] == 's'){
 			if (index != 2){
 				fprintf(stdout, "Error: Wrong input\n");
+				fflush(stdout);
 				continue;
 			}
 			int i = 0;
@@ -303,16 +311,19 @@ int main(){
 			end = getint(s1);
 			if (start<0 || start >= all || end<0 || end >= all || special==1){
 				fprintf(stdout, "Error: Wrong point\n");
+				fflush(stdout);
 				continue;
 			}
 			if (start == end){
 				fprintf(stdout, "%d-%d\n", start, end);
+				fflush(stdout);
 				continue;
 			}
 			struct node *pa= findchild(first, end);
 			struct node *sa = findchild(first, start);
 			if(pa==NULL || sa==NULL){
 				fprintf(stdout, "Error: no path from  %d to %d\n", start, end);
+				fflush(stdout);
 				continue;
 			}else{
 				sa->key = 0;
@@ -337,6 +348,7 @@ int main(){
 				}
 				if ( pa==NULL || sa ==NULL||pa->key >= 999999){
 					fprintf(stdout, "Error: no path from  %d to %d\n", start, end);
+					fflush(stdout);
 					continue;
 				}
 				else{

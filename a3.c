@@ -153,6 +153,9 @@ int getint(char *s){
 				strcat(pyout2,command_path);
 				fprintf(stdout, "pyout2:%s", pyout2);
 				//fflush(stdout);
+				
+
+				
 				write(fd11[1],pyout2,strlen(pyout2)+1);
  				read(fd22[0],a3out,1000);
  				int errflag2=0;

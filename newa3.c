@@ -117,26 +117,13 @@ int getint(char *s){
 				if(errflag==0&&strlen(pyout2)!=0){
 					fprintf(stdout,"%s",pyout2);
 				}
-				//fprintf(stdout, "21111111111111111111111111111111\n");
-				// if(fgets (command_path, 1000, stdin)==NULL){
-				// 	fprintf(stdout, "madan" );
-				// 	break;
-				// }
 				if(getline(&command_path,&len,stdin)==EOF){
 					fprintf(stdout, "madan\n" );
 					fflush(stdout);
 					break;
 				}
 				command_path[strlen(command_path)-1]=='\0';
-				//fprintf(stdout,"%s",command_path);
-				//fprintf(stdout, "2333333333333333333333333333333333333\n");
-
-				
 				strcat(pyout2,command_path);
-				//fprintf(stdout, "pyout2:%s", pyout2);
-				//fflush(stdout);
-				
-
 				int fd11[2],fd22[2];
  				if(pipe(fd11)<0 || pipe(fd22)<0){
  					fprintf(stderr, "Error: Creat pipes failed.\n" );
@@ -174,6 +161,12 @@ int getint(char *s){
 				}
 				if(errflag2==0){
 					fprintf(stdout, "%s",a3out);
+				}else{
+					kill(prgen, SIGKILL);
+					kill(p2, SIGKILL);
+					pclose(fp);
+ 					return 0;
+					break;
 				}
 				//fprintf(stdout,"command:%s\n",command_path);
 				kill(p2, SIGKILL);
@@ -186,30 +179,9 @@ int getint(char *s){
 			}
 			memset(name, 0, maxl * sizeof(char));
 		}	
- 		// if((py=popen("python a1-ece650.py","w"))==NULL){
- 		// 	fprintf(stderr, "Error: Fail to open rgen.\n" );
- 		// }else{
- 		// 	fprintf(stdout,"232323232");
- 		// 	strcpy(line,"\0");
- 		// 	while(getline(&name,&maxl,fp)!=EOF){
-	 	// 		//fprintf(stdout,"%s",name);
- 		// 		strcat(line,name);
- 		// 		if(name[0]=='g'){
- 		// 			fprintf(py,"%s",line);
- 		// 			//fprintf(stdout,"%s",line);
- 		// 			strcpy(pyout2,"\0");
- 		// 			while(getline(&pyout,&maxl2,py)!=EOF){
- 		// 				strcat(pyout2,pyout);
- 		// 			}
- 		// 			fprintf(stdout,"%s",pyout2);
- 		// 			memset(line,0,sizeof(char)*MAXLENGTH*100);
- 		// 		}
-	 	// 		memset(name, 0, maxl * sizeof(char));
- 		// 	}	
- 		// }
- 		//pclose(py);
+ 		
 
  	}
  	pclose(fp);
- return 0;
+ 	return 0;
  }
