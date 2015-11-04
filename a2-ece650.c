@@ -79,6 +79,7 @@ int main(){
 	int alloc = 0;
 	struct node *first=NULL;
 	while (getline(&name,&maxl,stdin)!=EOF){
+		fflush(stdin);
 		name[strlen(name)-1]='\0';
 		if (name[0] == 'V'){
 			index = 0;
@@ -366,7 +367,9 @@ int main(){
 					head2=head2->child;
 				}
 			}
+			fflush(stdout);
 		}
+
 		memset(name, 0, maxl * sizeof(char));
 	}
 }

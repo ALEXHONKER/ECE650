@@ -2,7 +2,7 @@ import string
 import sys
 import math
 global count
-count=1
+count=0
 dic={}
 
 nodes={}  #{xx_yy:[[xx,yy],count]}
@@ -255,7 +255,7 @@ def remove(strs):
 def removeall():
 	global count
 	for nam in dic.keys():
-		count=1
+		count=0
 		del dic[nam]
 
 def graph():
@@ -782,7 +782,7 @@ def graph():
 
 			
 try:
-	count=1
+	count=0
 	while True:
 		# f = open('workfile', 'w')
 		# f.write("stdin")

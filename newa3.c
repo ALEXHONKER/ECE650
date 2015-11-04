@@ -5,6 +5,8 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/user.h>
 #define MAXLENGTH 5000
 int getint(char *s){
 	int i = 0;
@@ -89,27 +91,7 @@ int getint(char *s){
 		unsigned long len=100;
 		char *command_path=malloc(sizeof(char)*100);
 
-		int fd11[2],fd22[2];
- 				if(pipe(fd11)<0 || pipe(fd22)<0){
- 					fprintf(stderr, "Error: Creat pipes failed.\n" );
- 					///////////////kill
- 					return 0;
- 				}
-		pid_t p2;//process of a2
-		p2=fork();
-		if(p2==0){
-			close(fd11[1]);
-			close(fd22[0]);
-			dup2(fd22[1],STDOUT_FILENO);
-			dup2(fd11[0],STDIN_FILENO);
-			close(fd22[1]);
-			close(fd11[0]);
-			execl("/bin/sh","sh","-c","./a2-ece650",NULL);
-			fprintf(stderr, "Error: Open python script failed.\n" );
-			return 0;
-		}
-		close(fd11[0]);
-		close(fd22[1]);
+		
 
 		while(getline(&name,&maxl,fp)!=EOF){
 			//fprintf(stdout,"%s",name);
@@ -135,7 +117,7 @@ int getint(char *s){
 				if(errflag==0&&strlen(pyout2)!=0){
 					fprintf(stdout,"%s",pyout2);
 				}
-				fprintf(stdout, "21111111111111111111111111111111\n");
+				//fprintf(stdout, "21111111111111111111111111111111\n");
 				// if(fgets (command_path, 1000, stdin)==NULL){
 				// 	fprintf(stdout, "madan" );
 				// 	break;
@@ -146,17 +128,40 @@ int getint(char *s){
 					break;
 				}
 				command_path[strlen(command_path)-1]=='\0';
-				fprintf(stdout,"%s",command_path);
-				fprintf(stdout, "2333333333333333333333333333333333333\n");
+				//fprintf(stdout,"%s",command_path);
+				//fprintf(stdout, "2333333333333333333333333333333333333\n");
 
 				
 				strcat(pyout2,command_path);
-				fprintf(stdout, "pyout2:%s", pyout2);
+				//fprintf(stdout, "pyout2:%s", pyout2);
 				//fflush(stdout);
+				
+
+				int fd11[2],fd22[2];
+ 				if(pipe(fd11)<0 || pipe(fd22)<0){
+ 					fprintf(stderr, "Error: Creat pipes failed.\n" );
+ 					///////////////kill
+ 					return 0;
+ 				}
+				pid_t p2;//process of a2
+				p2=fork();
+				if(p2==0){
+					close(fd11[1]);
+					close(fd22[0]);
+					dup2(fd22[1],STDOUT_FILENO);
+					dup2(fd11[0],STDIN_FILENO);
+					close(fd22[1]);
+					close(fd11[0]);
+					execl("/bin/sh","sh","-c","./a2-ece650",NULL);
+					fprintf(stderr, "Error: Open python script failed.\n" );
+					return 0;
+				}
+				close(fd11[0]);
+				close(fd22[1]);
 				write(fd11[1],pyout2,strlen(pyout2)+1);
  				read(fd22[0],a3out,1000);
  				int errflag2=0;
- 				fprintf(stdout, "235555555555555555555555555555\n");
+ 				//fprintf(stdout, "235555555555555555555555555555\n");
  				fflush(stdout);
  				////if error need exit??????????????????????????????????????????????
  				for(ii=0;ii<strlen(a3out);ii++){
@@ -171,7 +176,7 @@ int getint(char *s){
 					fprintf(stdout, "%s",a3out);
 				}
 				//fprintf(stdout,"command:%s\n",command_path);
-
+				kill(p2, SIGKILL);
 				memset(pyerr,0,sizeof(char)*MAXLENGTH);
 				memset(command_path,0,sizeof(char)*100);
 				memset(a3out,0,sizeof(char)*1000);
