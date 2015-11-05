@@ -242,13 +242,8 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   fprintf(stdout,"g\n");
 	   fflush(stdout);
 	   int ll=5+(int)((float)ran[count++]/65535.0*(float)(l-4));
-	   // break;
- 
-	   // printf("ll:%d\n",ll);
-	   // printf("overlap:%d\n",overlap(0,0,2,2,1,1,3,3));
 
-
-       sleep(ll);
+       //sleep(ll);////////////////////////////////
    }
    fclose(f);
  }

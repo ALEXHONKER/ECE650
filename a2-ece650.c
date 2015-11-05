@@ -105,18 +105,31 @@ int main(){
 				}
 			}
 
-			if (num == 0 && fau == 0){
-				fprintf(stdout, "Error: wrong V\n");
-				fflush(stdout);
+			// if (num == 0 && fau == 0){
+			// 	fprintf(stdout, "Error: wrong V\n");
+			// 	fflush(stdout);
+			// 	continue;
+			// }
+			// else{
+			// 	all = num;
+			// }
+			if (fau == 0){
+				//fprintf(stdout, "Error: wrong V\n");
+				//fflush(stdout);
+				//num == 0
+				index=1;
+				//all=0;
+				//index = 1;
+				all=num;
 				continue;
 			}
-			else{
-				all = num;
-			}
-			index = 1;
 			
 		}
 		else if (name[0] == 'E'){
+			if(all==0 && strlen(name)>=6&&name[4]=='{'&&name[5]=='}'){
+				index=2;
+				continue;
+			}
 			alloc = 0;
 			if(sizeof(int*)!=sizeof(cor)){
 				fr(cor,0);
@@ -311,6 +324,11 @@ int main(){
 				}
 			}
 			end = getint(s1);
+			if(all==0){
+				fprintf(stdout, "Error: no path from  %d to %d\n", start, end);
+				fflush(stdout);
+				continue;
+			}
 			if (start<0 || start >= all || end<0 || end >= all || special==1){
 				fprintf(stdout, "Error: Wrong point\n");
 				fflush(stdout);

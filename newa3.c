@@ -40,12 +40,13 @@ int getint(char *s){
  	char pyerr[MAXLENGTH];
  	strcpy(command,"./rgen ");
  	char a3out[1000];
+ 	char temp[4095];
  	//char *command=malloc(sizeof(char));
  	for(i=1;i<argc;i++){
  		strcat(command,argv[i]);
  		strcat(command," ");
  	}
- 	fprintf(stdout,"%s\n",command);
+ 	//fprintf(stdout,"%s\n",command);
  	FILE *fp;
  	FILE *a2;// get a2's out put
  	if((fp=popen(command,"r"))==NULL){
@@ -65,7 +66,7 @@ int getint(char *s){
  		prgen=fork();
  		if(prgen==0){
 
- 			fprintf(stdout, "child.\n" );
+ 			//fprintf(stdout, "child.\n" );
  			close(fd1[1]);
  			close(fd2[0]);
  			//close(fd3[0]);
@@ -87,7 +88,7 @@ int getint(char *s){
 		close(fd1[0]);
 		close(fd2[1]);
 		strcpy(line,"\0");
-		fprintf(stdout, "parent1\n" );
+		//fprintf(stdout, "parent1\n" );
 		unsigned long len=100;
 		char *command_path=malloc(sizeof(char)*100);
 
@@ -100,7 +101,17 @@ int getint(char *s){
 				write(fd1[1],line,strlen(line)+1);
 				fprintf(stdout,"%s",line);
 				strcpy(pyout2,"\0");
-				read(fd2[0],pyout2,sizeof(char)*MAXLENGTH*1000);
+				//read(fd2[0],pyout2,sizeof(char)*MAXLENGTH*1000);
+				read(fd2[0],temp,sizeof(char)*4095);
+				strcat(pyout2,temp);
+				while(temp[strlen(temp)-2]!='}'){
+					//fprintf(stdout,"oheeeeeeeeeeee\n");
+					memset(temp,0,sizeof(char)*4095);
+					read(fd2[0],temp,sizeof(char)*4095);
+					//fprintf(stdout,"lenoftemp:%d,%c\n",(int)strlen(temp),temp[strlen(temp)-2]);
+					strcat(pyout2,temp);
+				}
+				memset(temp,0,sizeof(char)*4095);
 				int ii=0;
 				int errflag=0;
 				for(ii=3;ii<strlen(pyout2);ii++){
@@ -115,17 +126,28 @@ int getint(char *s){
 					}
 				}
 				if(errflag==0&&strlen(pyout2)!=0){
+					//fprintf(stdout,"length:%d\n",(int)strlen(pyout2));
 					fprintf(stdout,"%s",pyout2);
 				}
 				if(getline(&command_path,&len,stdin)==EOF){
 					fprintf(stdout, "madan\n" );//////////////////////////
 					//fflush(stdout);
 					
-					//write(fd1[1],"\x04",4);
-					//close(fd1[1]);
-					//close(fd2[0]);
+					// write(fd1[1],NULL,1);
+					close(fd1[1]);
+					// close(fd2[0]);
+					// close(fd1[0]);
+					// close(fd2[1]);
+					fprintf(stdout, "madan3\n" );
 					//pclose(fp);
-					kill(prgen, SIGKILL);
+					// if (pclose (fp) != 0)
+				 //    {
+				 //      fprintf (stderr,"Could not run more or other error.\n");
+				 //    }
+					
+					//kill(prgen, SIGKILL);
+					fprintf(stdout, "madan4\n" );
+					//goto ks;
 					exit(1);
 					exit(0);
 					return 0;
@@ -179,6 +201,7 @@ int getint(char *s){
 				// 	break;
 				// }
 				//fprintf(stdout,"command:%s\n",command_path);
+				close(fd11[1]);
 				kill(p2, SIGKILL);
 				memset(pyerr,0,sizeof(char)*MAXLENGTH);
 				memset(command_path,0,sizeof(char)*100);
