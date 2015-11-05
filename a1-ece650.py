@@ -741,12 +741,14 @@ def graph():
 							#print minid2
 							if minid2!="":
 								list_node.remove(minid2)
-								#print list_node
+	
+	#pipesize=0							#print list_node
 	sys.stdout.write("V = ")
 	#sys.stdout.flush()
 	sys.stdout.write(str(len(nodes)))
 	#sys.stdout.flush()
 	sys.stdout.write("\n")
+
 	#sys.stdout.flush()
 	# listed_nodes={}
 	# #print nodes
@@ -769,10 +771,14 @@ def graph():
 	# 	sys.stdout.write("\n")
 	# sys.stdout.write("\n")
 	sys.stdout.write("E = {")
+	#pipesize=pipesize+10+len(str(len(nodes)))
 	#sys.stdout.flush()
 	for i in range(len(edges)):
 		edge0=edges[i]
 		sys.stdout.write("<"+str(edge0[0])+","+str(edge0[1])+">")
+		#pipesize=pipesize
+		if ((i+0.0)/(300.0))%1==0.0:
+			sys.stdout.flush()
 		#sys.stdout.flush()
 		if i!=len(edges)-1:
 			sys.stdout.write(",")
@@ -839,14 +845,9 @@ try:
 				#removeall() # remove all
 				# str_name=dic.keys()
 			else:
-				sys.stderr.write("Error: Please input valid data_\n")
-			# str_name=dic.keys()
-			#print str_name
-			# for strs in str_name:
-			# 	pass
-				#print strs+"    23333"
-				#print dic[strs].setxy
-				#print len(dic)	
+				continue
+				#sys.stderr.write(a);
+				#sys.stderr.write("Error: Please input valid data_\n")
 except KeyboardInterrupt:
     sys.stdout.flush()
     pass
