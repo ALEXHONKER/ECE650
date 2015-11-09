@@ -124,7 +124,8 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
  void main(int argc,char *argv[]){
  	int i=0;
 	int s=10; //number of street
-	int n=5;  //number of line segment in each street
+	//int n=5;  //number of line segment in each street
+	int n=5;
 	int l=5;  //wait seconds
 	int c=20; //range of coordinate
 	int temp;
@@ -243,7 +244,7 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   fflush(stdout);
 	   int ll=5+(int)((float)ran[count++]/65535.0*(float)(l-4));
 
-       //sleep(ll);////////////////////////////////
+       sleep(ll);////////////////////////////////
    }
    fclose(f);
  }
