@@ -22,6 +22,116 @@ class street:
 	def addintersec(self,xy):
 		self.intersec.append(xy)
 
+# def interc(x1,y1,x2,y2,x3,y3,x4,y4):
+# 	interflag=0;
+# 	if (x2-x1)==0:
+# 		if(x4-x3)!=0:
+# 			k2=(y4-y3)/(x4-x3)
+# 			b2=y4-k2*x4
+# 			maxy=y1
+# 			miny=y2
+# 			if y2>y1:
+# 				maxy=y2
+# 				miny=y1
+# 			maxy2=y3
+# 			miny2=y4
+# 			if y4>y3:
+# 				maxy2=y4
+# 				miny2=y3
+# 			maxx=x3
+# 			minxx=x4
+# 			if x4>x3:
+# 				maxx=x4
+# 				minxx=x3
+# 			xx=x1
+# 			yy=k2*xx+b2
+# 			if  yy>=miny and yy<=maxy and yy>=miny2 and yy<=maxy2 and xx<=maxx and xx >= minxx:
+# 				print x1,y1,x2,y2,x3,y3,x4,y4
+# 				print "\n"
+# 				interflag=1;
+# 		elif x1==x3:
+# 			maxy=y2
+# 			miny=y1
+# 			if y1>y2:
+# 				maxy=y1
+# 				miny=y2
+# 			maxy2=y3
+# 			miny2=y4
+# 			if y4>y3:
+# 				maxy2=y4
+# 				miny2=y3
+# 			if maxy==miny2 or miny==maxy2:
+# 				print x1,y1,x2,y2,x3,y3,x4,y4
+# 				print "\n"
+# 				interflag=1;
+
+# 	else:
+# 		k1=(y2-y1)/(x2-x1)
+# 		b1=y2-k1*x2
+# 				#if j != (len(coor2)-1):
+# 					# x4=coor2[j+1][0]+0.0
+# 					# y4=coor2[j+1][1]+0.0
+# 		if (x4-x3)==0:
+# 			maxy=y1
+# 			miny=y2
+# 			if y2>y1:
+# 				maxy=y2
+# 				miny=y1
+# 			maxy2=y3
+# 			miny2=y4
+# 			if y4>y3:
+# 				maxy2=y4
+# 				miny2=y3
+# 			maxx=x1
+# 			minxx=x2
+# 			if x2>x1:
+# 				minxx=x1
+# 				maxx=x2
+# 			xx=x4
+# 			yy=k1*xx+b1
+# 			if  yy>=miny and yy<=maxy and yy<=maxy2 and yy>=miny2 and xx<=maxx and xx>=minxx:
+# 				print x1,y1,x2,y2,x3,y3,x4,y4
+# 				print "\n"
+# 				interflag=1;
+# 		else:
+# 			k2=(y4-y3)/(x4-x3)
+# 			b2=y4-k2*x4
+# 			if k1!=k2:
+# 				maxx=x1
+# 				minxx=x2
+# 				if x2>x1:
+# 					maxx=x2
+# 					minxx=x1
+# 				maxx2=x3
+# 				minxx2=x4
+# 				if x4>x3:
+# 					maxx2=x4
+# 					minxx2=x3
+# 				maxy=y1
+# 				miny=y2
+# 				if y2>y1:
+# 					maxy=y2
+# 					miny=y1
+# 				maxy2=y3
+# 				miny2=y4
+# 				if y4>y3:
+# 					maxy2=y4
+# 					miny2=y3
+# 				xx=(b2-b1)/(k1-k2)
+# 				yy=k1*xx+b1
+# 				if xx>=minxx and xx<=maxx and yy>=miny and yy<=maxy and yy<=maxy2 and yy>=miny2 and xx<=maxx2 and xx >= minxx2:
+# 					print x1,y1,x2,y2,x3,y3,x4,y4
+# 					print "\n"
+# 					interflag=1;
+# 			else:
+# 				if (x1==x3 and y1==y3 ) or (x2==x3 and y2==y3) or (x1==x4 and y1==y4) or (x2==x4 and y2==y4):
+# 					print x1,y1,x2,y2,x3,y3,x4,y4
+# 					print "\n"
+# 					interflag=1;
+# 	if interflag==1:
+# 		print xx,yy
+# 	return interflag
+
 def overlap(x1,y1,x2,y2,x3,y3,x4,y4):
 	if x1==x2 and x4==x3 and x3==x1:
 		maxy=y2
@@ -86,15 +196,15 @@ def add(strs):
 	c2=strs.find("\"",c1+1)
 	if c1==-1 or c2==-1:
 		sys.stderr.write("Error: Wrong format of street name.\n")
-		return
+		return 0
 	#street_name=strs[c1+1:c2].strip()
 	street_name=strs[c1+1:c2]
 	if dic.has_key(street_name):
 		sys.stderr.write("Error: 'a' specified for a street that already exists.\n")
-		return
+		return 0
 	elif street_name=="":
 		sys.stderr.write("Error: Street name should not be empty.\n")
-		return
+		return 0
 	else:	
 		strs=strs[c2+1:]
 		strs=strs.strip()
@@ -108,14 +218,14 @@ def add(strs):
 			comma=strs.find(",")
 			if p1==-1 or p2==-1 or comma==-1:
 				sys.stderr.write("Error: Wrong format of GPS coordiante.\n")
-				return	
+				return	0
 			co1=strs[p1+1:p2]
 			strs=strs[p2+1:]
 			co1=co1.strip()
 			cor=co1.split(",")
 			if len(cor)!=2 :
 				sys.stderr.write("Error:Wrong format of GPS coordinate.\n")
-				return
+				return 0
 			cor[0]=cor[0].strip()
 			cor[1]=cor[1].strip()
 			if cor[0].isdigit():
@@ -125,10 +235,10 @@ def add(strs):
 					x1=-1*string.atoi(cor[0][1:].strip())
 				else :
 					sys.stderr.write("Error:Wrong format of GPS coordinate.\n")
-					return			 
+					return 0		 
 			else :
 				sys.stderr.write("Error:Wrong format of GPS coordinate.\n")
-				return 
+				return 0
 			if cor[1].isdigit():
 				y1=string.atoi(cor[1])
 			elif cor[1][0]=="-":
@@ -136,15 +246,16 @@ def add(strs):
 					y1=-1*string.atoi(cor[1][1:].strip())
 				else :
 					sys.stderr.write("Error:Wrong format of GPS coordinate.\n")
-					return			 
+					return 0		 
 			else :
 				sys.stderr.write( "Error:Wrong format of GPS coordinate.\n")
-				return
+				return 0
 			par=[x1,y1]
 			number_of_cor=number_of_cor+1
 			#par.append(x1)
 			#par.append(y1)
 			pointer=0
+			intecflag=0;
 			if not (strs.strip() == '' and number_of_cor ==1):
 
 				if number_of_cor>=3:
@@ -152,7 +263,7 @@ def add(strs):
 					y2=str1.setxy[len(str1.setxy)-1][1]	
 					coor=str1.setxy
 					for i in range(len(coor)):
-						if pointer==1:
+						if pointer==1 or intecflag==1:
 							break
 						x3=coor[i][0]+0.0
 						y3=coor[i][1]+0.0
@@ -162,21 +273,21 @@ def add(strs):
 							#print pointer
 							#print x1,y1,x2,y2,x3,y3,x4,y4
 							pointer=overlap(x1,y1,x2,y2,x3,y3,x4,y4)
-							if pointer==1:
-								sys.stderr.write(str(x1))
-								sys.stderr.write(str(y1))
-								sys.stderr.write(str(x2))
-								sys.stderr.write(str(y2))
-								sys.stderr.write(str(x3))
-								sys.stderr.write(str(y3))
-								sys.stderr.write(str(x4))
-								sys.stderr.write(str(y4))
-							#print pointer
+						# if i < (len(coor)-2):
+						# 	x4=coor[i+1][0]+0.0
+						# 	y4=coor[i+1][1]+0.0
+						# 	intecflag=interc(x1+0.0,y1+0.0,x2+0.0,y2+0.0,x3,y3,x4,y4);
 					if pointer==0:
 						str1.setsxy(par)
 					else:
 						sys.stderr.write( "Error: Overlap with other line segment in this street.\n")
-						return
+						return 0
+					# if intecflag==1:
+					# 	sys.stderr.write(street_name)
+					# 	sys.stderr.write( "Error: The street intersects with itself.\n")
+					# 	sys.stderr.flush()
+					# 	sys.stdout.flush()
+					# 	return -1
 				elif number_of_cor==2:
 					x2=str1.setxy[len(str1.setxy)-1][0]	
 					y2=str1.setxy[len(str1.setxy)-1][1]
@@ -184,12 +295,12 @@ def add(strs):
 						str1.setsxy(par)
 					else:
 						sys.stderr.write( "Error: Wrong coordinates, two same ends in a street.\n")
-						return
+						return 0
 				else:
 					str1.setsxy(par)
 			else:
 				sys.stderr.write("Error: Incomplete coordinates in a \""+str(street_name)+"\", no end point.\n")
-				return
+				return 0
 		pointer =0
 		coor=str1.setxy
 		for i in range(len(coor)):
@@ -219,7 +330,7 @@ def add(strs):
 			dic[street_name]=str1
 		else:
 			sys.stderr.write( "Error: Overlap with other street.\n")
-			return
+			return 0
 
 def delete(strs):
 	c1=strs.find("\"",0)
@@ -829,10 +940,11 @@ try:
 			# sys.stderr.write("first:"+first)
 			# sys.stderr.write("\n")
 			if first=='a' and (a[1]==" " or a[1]=="\""):
-				add(a)
+				if add(a)== -1: 
+					break
 			elif first=='c' and (a[1]==" " or a[1]=="\""):
 				delete(a)
-			elif (first=='r' or (len(a)>1 and a[1]=='r')) and len(a)<=5:
+			elif (first=='r' or (len(a)>1 and a[1]=='r')) and len(a)<=4: #<=5
 				removeall()
 			elif first=='r' and (a[1]==" " or a[1]=="\""):
 				remove(a)

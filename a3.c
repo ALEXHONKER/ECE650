@@ -39,6 +39,52 @@ int getint(char *s){
  	strcpy(command,"./rgen ");
  	char a3out[1000];
  	//char *command=malloc(sizeof(char));
+ 	int flags=0,flagn=0,flagl=0,flagc=0;
+ 	for(i=1;i<argc;i++){
+		if(argv[i][0]=='-'){
+			temp=getint(argv[i+1]);
+			if(temp!=-1){
+				switch(argv[i][1]){
+				case 's':
+					if(flags==0){
+						flags=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				case 'n':
+					if(flagn==0){
+						flagn=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				case 'l':
+					if(flagl==0){
+						flagl=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				case 'c':
+					if(flagc==0){
+						flagc=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				}
+			}else{
+				fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 				return 0;
+			}	
+		i++;
+		}
+	}
  	for(i=1;i<argc;i++){
  		strcat(command,argv[i]);
  		strcat(command," ");

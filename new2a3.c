@@ -41,7 +41,73 @@ int getint(char *s){
  	strcpy(command,"./rgen ");
  	char a3out[1000];
  	char temp[4095];
- 	//char *command=malloc(sizeof(char));
+ 	//check the valid of command=line arguments
+ 	int flags=0,flagn=0,flagl=0,flagc=0;
+ 	for(i=1;i<argc;i++){
+		if(argv[i][0]=='-'){
+			int tp=getint(argv[i+1]);
+			if(tp!=-1){
+				switch(argv[i][1]){
+				case 's':
+					if(flags==0){
+						flags=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					if(tp<2){
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				case 'n':
+					if(flagn==0){
+						flagn=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					if(tp<1){
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				case 'l':
+					if(flagl==0){
+						flagl=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					if(tp<5){
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				case 'c':
+					if(flagc==0){
+						flagc=1;
+					}else{
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					if(tp<1){
+						fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 						return 0;
+					}
+					break;
+				default:
+					fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 					return 0;
+				}
+			}else{
+				fprintf(stderr, "Error: Invalid command-line arguments.\n" );
+ 				return 0;
+			}	
+		i++;
+		}
+	}
+
  	for(i=1;i<argc;i++){
  		strcat(command,argv[i]);
  		strcat(command," ");
@@ -102,9 +168,9 @@ int getint(char *s){
 		}
 		strcat(line,name);
 		if(name[0]=='g'){// always g????????????????????????????????????????????????????????????????
-			///////////////////////////////if over 25 time ,generate Error:!!!!!!!!!
+			///////////////////////////////if over 25 time ,generate Error:!!!!!!!!!sloved~~
 			write(fd1[1],line,strlen(line)+1);
-			//fprintf(stdout,"%s",line);
+			fprintf(stdout,"%s",line);
 			strcpy(pyout2,"\0");
 			memset(temp,0,sizeof(char)*4095);
 			read(fd2[0],temp,sizeof(char)*4095);////////////////////will it over 4096  check stderr
@@ -131,6 +197,7 @@ int getint(char *s){
 			if(errflag==0&&strlen(pyout2)!=0){
 				fprintf(stdout,"%s",pyout2);
 			}
+
 			if(getline(&command_path,&len,stdin)==EOF){
 				close(fd1[1]);
 				close(fd0[0]);
@@ -138,6 +205,7 @@ int getint(char *s){
 				exit(0);
 				return 0;
 			}
+
 			command_path[strlen(command_path)-1]=='\0';
 			strcat(pyout2,command_path);
 			int fd11[2],fd22[2];
@@ -166,17 +234,16 @@ int getint(char *s){
 			close(fd11[0]);
 			close(fd22[1]);
 			write(fd11[1],pyout2,strlen(pyout2)+1);
-				read(fd22[0],a3out,1000);
-				int errflag2=0;
-				fflush(stdout);
-				////if error need exit??????????????????????????????????????????????
-				for(ii=0;ii<strlen(a3out);ii++){
+			read(fd22[0],a3out,1000);
+			int errflag2=0;
+			fflush(stdout);
+			for(ii=0;ii<strlen(a3out);ii++){
 				if(a3out[ii]=='E'){
 					fprintf(stderr, "%s", a3out);
 					errflag2=1;
 					break;
 				}
-				if(ii>3) break;
+			if(ii>3) break;
 			}
 			if(errflag2==0){
 				fprintf(stdout, "%s",a3out);

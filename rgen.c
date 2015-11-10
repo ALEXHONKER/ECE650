@@ -12,6 +12,132 @@ struct street{
 	int **cor;
 	struct street * next;
 };
+int  interc(double x1,double y1,double x2,double y2,double x3,double y3, double x4,double y4){
+	int interflag=0;
+	double k2,b2,k1,b1;
+	double xx,yy;
+	double maxy,miny,maxy2,miny2,maxx,maxx2,minx,minxx,minxx2;
+	if((x2-x1)==0.0){
+		if((x4-x3)!=0.0){
+			k2=(y4-y3)/(x4-x3);
+			b2=y4-k2*x4;
+			maxy=y1;
+			miny=y2;
+			if(y2>y1){
+				maxy=y2;
+				miny=y1;
+			}	
+			maxy2=y3;
+			miny2=y4;
+			if(y4>y3){
+				maxy2=y4;
+				miny2=y3;
+			}	
+			maxx=x3;
+			minxx=x4;
+			if(x4>x3){
+				maxx=x4;
+				minxx=x3;
+			}	
+			xx=x1;
+			yy=k2*xx+b2;
+			if (yy>=miny && yy<=maxy && yy>=miny2 && yy<=maxy2 && xx<=maxx && xx >= minxx){
+				interflag=1;
+			}
+				
+		}
+			
+		else if(x1==x3){
+			maxy=y2;
+			miny=y1;
+			if(y1>y2){
+				maxy=y1;
+				miny=y2;
+			}
+			maxy2=y3;
+			miny2=y4;
+			if(y4>y3){
+				maxy2=y4;
+				miny2=y3;	
+			}	
+			if(maxy==miny2 || miny==maxy2){
+				interflag=1;
+			}
+				
+		}
+			
+	}else{
+		k1=(y2-y1)/(x2-x1);
+		b1=y2-k1*x2;
+		if((x4-x3)==0){
+			maxy=y1;
+			miny=y2;
+			if(y2>y1){
+				maxy=y2;
+				miny=y1;
+			}
+			maxy2=y3;
+			miny2=y4;
+			if(y4>y3){
+				maxy2=y4;
+				miny2=y3;
+			}
+			maxx=x1;
+			minxx=x2;
+			if(x2>x1){
+				minxx=x1;
+				maxx=x2;
+			}	
+			xx=x4;
+			yy=k1*xx+b1;
+			if (yy>=miny && yy<=maxy && yy<=maxy2 && yy>=miny2 && xx<=maxx && xx>=minxx){
+				interflag=1;
+			}
+				
+		}else{
+			k2=(y4-y3)/(x4-x3);
+			b2=y4-k2*x4;
+			if(k1!=k2){
+				maxx=x1;
+				minxx=x2;
+				if(x2>x1){
+					maxx=x2;
+					minxx=x1;
+				}		
+				maxx2=x3;
+				minxx2=x4;
+				if(x4>x3){
+					maxx2=x4;
+					minxx2=x3;
+				}		
+				maxy=y1;
+				miny=y2;
+				if(y2>y1){
+					maxy=y2;
+					miny=y1;
+				}	
+				maxy2=y3;
+				miny2=y4;
+				if(y4>y3){
+					maxy2=y4;
+					miny2=y3;
+				}	
+				xx=(b2-b1)/(k1-k2);
+				yy=k1*xx+b1;
+				if(xx>=minxx && xx<=maxx && yy>=miny && yy<=maxy && yy<=maxy2 && yy>=miny2 && xx<=maxx2 && xx >= minxx2){
+					interflag=1;
+				}
+					
+			}else{
+				if((x1==x3 && y1==y3 ) || (x2==x3 && y2==y3) || (x1==x4 && y1==y4) || (x2==x4 && y2==y4)) 
+					interflag=1;
+			}
+				
+		}
+			
+	}	
+	return interflag;
+}
 
 int getint(char *s){
 	int i = 0;
@@ -34,6 +160,18 @@ int getint(char *s){
 	return num;
 }
 
+void forfree(struct street *f){
+	while(f!=NULL){
+		int i;
+		for(i=f->len-1;i>=0;i--){
+			free(f->cor[i]);
+		}
+		struct street *k=f;
+		f=f->next;
+		free(k);
+	}
+	return ;
+}
 
 int overlap(int x1,int y1,int x2,int y2,int x3,int y3,int x4,int y4){
 	int maxy;
@@ -121,6 +259,21 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	}
 	return 0;
 }
+int checkintsec(int x1,int y1,int x2, int y2, struct street *f){
+	if(f!=NULL){
+		//printf("name:%d\n",f->name);
+		//printf("flen:%d\n",f->len);
+		if(f->len>2){
+			int i=0;
+			int flag=0;
+			for(i=1;i<f->len-1;i++){
+				flag=interc(x1,y1,x2,y2,f->cor[i-1][0],f->cor[i-1][1],f->cor[i][0],f->cor[i][1]);
+				if(flag==1) return 1;
+			}
+		}
+	}
+	return 0;
+}
  void main(int argc,char *argv[]){
  	int i=0;
 	int s=10; //number of street
@@ -195,15 +348,34 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   		 	int cc1,cc2;
 	   		 	if(i>=1){
 	   		 		int k=0;
-	   		 		for(k=0;k<26;k++){
-	   		 			cc1=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
-	   		 			if(cc1==c+1) cc1--;
-	   		 			cc2=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
-	   		 			if(cc2==c+1) cc2--;
-	   		 			if(check(cc1,cc2,s1->cor[i-1][0],s1->cor[i-1][1],first)==0 && !(cc1==s1->cor[i-1][0] && cc2==s1->cor[i-1][1])) break;
+	   		 		if(i>=3){
+	   		 			for(k=0;k<26;k++){
+		   		 			cc1=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
+		   		 			if(cc1==c+1) cc1--;
+		   		 			cc2=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
+		   		 			if(cc2==c+1) cc2--;
+		   		 			// printf("ss+");
+		   		 			// int fu=0;
+		   		 			// fu= checkintsec((double)cc1,(double)cc2,(double)s1->cor[i-1][0],(double)s1->cor[i-1][1],first);
+		   		 			// printf("ss1+\n");
+		   		 			// if(fu==1) {k--;continue;}
+		   		 			// if(check(cc1,cc2,s1->cor[i-1][0],s1->cor[i-1][1],first)==0 && fu==0 &&!(cc1==s1->cor[i-1][0] && cc2==s1->cor[i-1][1])) break;
+		   		 			// printf("ss2\n");
+		   		 			if(check(cc1,cc2,s1->cor[i-1][0],s1->cor[i-1][1],first)==0  &&!(cc1==s1->cor[i-1][0] && cc2==s1->cor[i-1][1])) break;
+	   		 			}
+	   		 		}else{
+	   		 			for(k=0;k<26;k++){
+		   		 			cc1=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
+		   		 			if(cc1==c+1) cc1--;
+		   		 			cc2=-1*c+(int)((float)ran[count++]/65535.0*(float)(2*c+1));
+		   		 			if(cc2==c+1) cc2--;
+		   		 			if(check(cc1,cc2,s1->cor[i-1][0],s1->cor[i-1][1],first)==0 && !(cc1==s1->cor[i-1][0] && cc2==s1->cor[i-1][1])) break;
+	   		 			}
 	   		 		}
 	   		 		if(k==26){
 	   		 			fprintf(stderr,"Error:  failed to generate valid input for 25 simultaneous attempts\n");
+	   		 			fflush(stderr);
+	   		 			return ;
 	   		 			/////////////////////////////////////////////////////////////////////////////////////////
 	   		 			/*
 							end all the processes~~~~~~~to be completed 
@@ -243,8 +415,8 @@ int check(int x1,int y1,int x2, int y2, struct street *f){
 	   fprintf(stdout,"g\n");
 	   fflush(stdout);
 	   int ll=5+(int)((float)ran[count++]/65535.0*(float)(l-4));
-
-       sleep(ll);////////////////////////////////
+	   forfree(first);
+       sleep(1);////////////////////////////////
    }
    fclose(f);
  }
