@@ -206,7 +206,7 @@ int getint(char *s){
 				return 0;
 			}
 
-			command_path[strlen(command_path)-1]=='\0';
+			command_path[strlen(command_path)-1]='\0';
 			strcat(pyout2,command_path);
 			int fd11[2],fd22[2];
 				if(pipe(fd11)<0 || pipe(fd22)<0){
